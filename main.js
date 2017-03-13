@@ -19,15 +19,27 @@ function initCanvas() {
 
   stage = new PIXI.Container()
 
-  let sprite = PIXI.loader.add('paysage', 'assets/paysage.jpg').load(setup)
+  let sprite = PIXI.loader
+	.add([
+		"assets/paysage.jpg",
+	    "assets/chien.jpg",
+	    "assets/gene.png"
+	])
+	.load(setup);
 
   render()
 }
 
 
 function setup(loader, resources) {
-  let paysage = new PIXI.Sprite(resources.paysage.texture);
-  stage.addChild(paysage);
+	console.log(resources)
+	resources.foreach(el => {
+		let texture = new PIXI.Sprite(el.texture);
+		texture.width = 120;
+		texture.height = 80;
+		stage.addChild(texture);
+	})
+	//paysage.visible = false;
 }
 
 
