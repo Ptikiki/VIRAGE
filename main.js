@@ -1,7 +1,9 @@
 window.onload = function() {
   initCanvas()
+  loadPictures()
 }
 
+/*** LISTENERS ***/
 window.addEventListener('resize', handleResize)
 
 
@@ -19,35 +21,30 @@ function initCanvas() {
 
   stage = new PIXI.Container()
 
-  let sprite = PIXI.loader
+  render()
+}
+
+function loadPictures() {
+  const pictures = PIXI.loader
 	.add([
 		"assets/paysage.jpg",
 	    "assets/chien.jpg",
 	    "assets/gene.png"
 	])
-	.load(setup);
-
-  render()
+	.load(setupLoaded)
 }
 
-
-function setup(loader, resources) {
-	console.log(resources)
-	resources.foreach(el => {
-		let texture = new PIXI.Sprite(el.texture);
-		texture.width = 120;
-		texture.height = 80;
-		stage.addChild(texture);
-	})
-	//paysage.visible = false;
+function setupLoaded(loader, resources) {
+  Object.keys(resources).map(function(objectKey, index) {
+    const sprite = new PIXI.Sprite(resources[objectKey].texture)
+    stage.addChild(sprite)
+  })
 }
-
 
 function render() {
   requestAnimationFrame(render)
   renderer.render(stage)
 }
-
 
 function handleResize() {
   renderer.resize(window.innerWidth, window.innerHeight)
