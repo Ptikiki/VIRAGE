@@ -64,4 +64,5 @@ function render() {
 
 function handleResize() {
   renderer.resize(window.innerWidth, window.innerHeight)
+  makePage()
 }
