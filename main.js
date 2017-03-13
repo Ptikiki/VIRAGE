@@ -9,7 +9,8 @@ window.addEventListener('resize', handleResize)
 
 /*** SCENE SETUP ***/
 let renderer,
-    stage
+    stage,
+    sprites = {}
 
 
 /*** CANVAS DRAWING ***/
@@ -24,21 +25,36 @@ function initCanvas() {
   render()
 }
 
+/*** PICTURES LOADING ***/
 function loadPictures() {
   const pictures = PIXI.loader
 	.add([
-		"assets/paysage.jpg",
-	    "assets/chien.jpg",
-	    "assets/gene.png"
+		'assets/paysage.jpg',
+	    'assets/chien.jpg',
+	    'assets/gene.png'
 	])
+  .on('progress', loadProgressHandler)
 	.load(setupLoaded)
+}
+
+function loadProgressHandler(loader) {
+  console.log('loading')
+  console.log('progress: ' + loader.progress + '%')
 }
 
 function setupLoaded(loader, resources) {
   Object.keys(resources).map(function(objectKey, index) {
     const sprite = new PIXI.Sprite(resources[objectKey].texture)
+    sprites[objectKey] = sprite
     stage.addChild(sprite)
   })
+  makePage()
+}
+
+function makePage() {
+  sprites['assets/paysage.jpg'].width = window.innerWidth
+  sprites['assets/paysage.jpg'].height = window.innerWidth / 2.25
+  sprites['assets/paysage.jpg'].y = window.innerHeight / 2 - sprites['assets/paysage.jpg'].height / 2
 }
 
 function render() {
