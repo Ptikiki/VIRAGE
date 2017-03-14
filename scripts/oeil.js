@@ -10,7 +10,8 @@ window.addEventListener('keydown',  keyDetected)
 /*** SCENE SETUP ***/
 let renderer,
     stage
-let nbr_yeux = 30
+let nbr_yeux = 30,
+    circles = []
 
 /*** CANVAS DRAWING ***/
 function initCanvas() {
@@ -28,6 +29,7 @@ function initCanvas() {
 // RENDU
 function render() {
   requestAnimationFrame(render)
+  animate()
   renderer.render(stage)
 }
 
@@ -37,13 +39,14 @@ function handleResize() {
 }
 
 function drawCircle(i) {
-  var circle = new PIXI.Graphics();
+  let circle = new PIXI.Graphics();
   circle.beginFill(0xffffff);
   circle.drawCircle(0, 0, Math.random()*10*i);
   circle.endFill();
   circle.x = Math.random()*1000*i;
   circle.y = Math.random()*100*i;
   stage.addChild(circle);
+  circles.push(circle)
 }
 
 function drawManyCircles() {
@@ -53,12 +56,18 @@ function drawManyCircles() {
 }
 
 function keyDetected(event) {
-  var key = event.keyCode || event.which;
+  let key = event.keyCode || event.which;
     switch(key) {
-      case 89 :  // touche y  
+      case 89 :  // touche y
         alert("TOUCHE Y APPUYEE");
         break;
       default :
         return true;
     }
+}
+
+function animate() {
+  for (var i = 0; i < circles.length; i++) {
+    circles[i].x += 0.5
+  }
 }
