@@ -18,7 +18,7 @@ let nbr_yeux = 30,
 
 /*** CANVAS DRAWING ***/
 function initCanvas() {
-  renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight)
+  renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight, { antialias: true })
   renderer.backgroundColor = 0x000000
   renderer.autoResize = true
   document.body.appendChild(renderer.view)
