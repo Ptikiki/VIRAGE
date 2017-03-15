@@ -17,7 +17,6 @@ let dessinPoint,
 /*** CANVAS DRAWING ***/
 function initCanvas() {
   renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight, { antialias: true })
-  renderer.backgroundColor = 0x061939
   renderer.autoResize = true
   document.body.appendChild(renderer.view)
 
@@ -25,7 +24,6 @@ function initCanvas() {
   carousel = new PIXI.Container() // défile
 
   stage.addChild(carousel)
-
 }
 
 
@@ -35,6 +33,8 @@ function initArdoises() {
   }
   ardoises.forEach(function(el) {
     el.mousedown = onArdoiseMouseDown
+    el.mouseover = () => { document.body.style.cursor = 'crosshair' }
+    el.mouseout = onArdoiseMouseOut
   });
 }
 
@@ -42,10 +42,10 @@ function initArdoises() {
 /*** PICTURES LOADING ***/
 function loadCarouselPictures() {
   const pictures = PIXI.loader
-	.add([
-    'assets/paysage.jpg',
-    'assets/chien.jpg',
-    'assets/ville.jpg'
+  .add([
+    'assets/carousel-1.png',
+    'assets/carousel-2.png',
+    'assets/carousel-3.png'
 	])
   .on('progress', loadProgressHandler)
 	.load(setupLoaded) // lancement setupLoaded quand chargement img terminé
@@ -114,7 +114,6 @@ function dessineArdoise(index) {
 
 
 function onArdoiseMouseDown(mouseData) {
-  console.log(mouseData)
   dessinPoint = new PIXI.Graphics()
   dessinPoint.beginFill(0xffffff)
   dessinPoint.moveTo(mouseData.data.global.x, mouseData.data.global.y)
@@ -122,10 +121,8 @@ function onArdoiseMouseDown(mouseData) {
 
   ardoises.forEach(function(el) {
     el.mousemove = onArdoiseMouseMove
-    el.mouseout = onArdoiseMouseOut
     el.mouseup = onArdoiseMouseUp
   });
-
 }
 
 function onArdoiseMouseMove(mouseData) {
@@ -134,16 +131,18 @@ function onArdoiseMouseMove(mouseData) {
 }
 
 function onArdoiseMouseOut() {
-  TweenLite.to(dessinPoint, 0.3, {
-    alpha: 0,
-    onComplete: () => { dessinPoint.clear() }
-  })
+  if (dessinPoint) {
+    TweenLite.to(dessinPoint, 0.3, {
+      alpha: 0,
+      onComplete: () => { dessinPoint.clear() }
+    })
+  }
+  document.body.style.cursor = 'auto'
 
   ardoises.forEach(function(el) {
     el.mousemove = null
     el.mouseup = null
-  });
-
+  })
 }
 
 function onArdoiseMouseUp() {
@@ -155,9 +154,7 @@ function onArdoiseMouseUp() {
 
   ardoises.forEach(function(el) {
     el.mousemove = null
-    el.mouseout = null
-  });
-
+  })
 }
 
 

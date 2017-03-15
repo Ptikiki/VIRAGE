@@ -18,7 +18,6 @@ let renderer,
 /*** CANVAS DRAWING ***/
 function initCanvas() {
   renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight, { antialias: true })
-  renderer.backgroundColor = 0x061939
   renderer.autoResize = true
   document.body.appendChild(renderer.view)
 
@@ -32,9 +31,9 @@ function initCanvas() {
 function loadCarouselPictures() {
   const pictures = PIXI.loader
 	.add([
-    'assets/paysage.jpg',
-    'assets/chien.jpg',
-    'assets/ville.jpg'
+    'assets/carousel-1.png',
+    'assets/carousel-2.png',
+    'assets/carousel-3.png'
 	])
   .on('progress', loadProgressHandler)
 	.load(setupLoaded) // lancement setupLoaded quand chargement img terminé
