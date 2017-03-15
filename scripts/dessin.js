@@ -23,6 +23,7 @@ function initCanvas() {
 
   stage = new PIXI.Container()
 
+  drawExercice()
   render()
 }
 
@@ -48,9 +49,30 @@ function onMouseDown(event) {
 function onMouseDrag(event) {
   dessinPoint.lineStyle(3, 0xffffff)
   dessinPoint.lineTo(event.offsetX, event.offsetY)
+  drawingDetection()
 }
 
 function onMouseUp(event) {
   dessinPoint.endFill()
   window.removeEventListener('mousemove', onMouseDrag)
+}
+
+function drawExercice() {
+  console.log("ahahaha")
+  let circle = new PIXI.Graphics()
+  circle.beginFill(0xFFF68F)
+  circle.drawCircle(0, 0, 10)
+  circle.endFill()
+  circle.x = 500
+  circle.y = 500
+  stage.addChild(circle)
+}
+
+function drawingDetection() {
+  console.log("detection en cours")
+  let mouseX = event.offsetX
+  let mouseY = event.offsetY
+  if (mouseX > 490 && mouseX < 510 && mouseY > 490 && mouseY < 510) {
+    console.log("c'est passé par 500px 500px")
+  }
 }
