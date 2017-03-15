@@ -20,7 +20,7 @@ function initCanvas() {
   renderer.autoResize = true
   document.body.appendChild(renderer.view)
 
-  stage = new PIXI.Stage(true) // ne défile pas // graphics interactifs
+  stage = new PIXI.Stage(true) // ne défile pas
   carousel = new PIXI.Container() // défile
 
   stage.addChild(carousel)
