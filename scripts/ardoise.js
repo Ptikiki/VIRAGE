@@ -31,9 +31,9 @@ function initCanvas() {
 
 function initArdoises() {
   for(let i = 0; i < 2; i++) {
-    dessineArdoise()
+    dessineArdoise(i)
   }
-  ardoises.forEach(function(el) { 
+  ardoises.forEach(function(el) {
     el.mousedown = onArdoiseMouseDown
   });
 }
@@ -75,7 +75,7 @@ function makeCarousel() {
 		sprites[objectKey].scale = new PIXI.Point(ratioHorizontal, ratioHorizontal) // redimensionnement : img = taille fenêtre
 		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
     sprites[objectKey].position.x = window.innerWidth * index // une img par "écran"
-  }) 
+  })
 }
 
 // RENDU
@@ -101,11 +101,11 @@ function handleScroll(e) {
 }
 
 /*** ARDOISE ***/
-function dessineArdoise() {
+function dessineArdoise(index) {
   let ardoise = new PIXI.Graphics()
   ardoise.beginFill(0x000000)
   ardoise.lineStyle(2, 0xFFFFFF)
-  ardoise.drawRect(Math.random()*1000, Math.random()*50, 550, 400)
+  ardoise.drawRect(datas.ardoises[index].x, datas.ardoises[index].y, datas.ardoises[index].width, datas.ardoises[index].height)
   ardoise.interactive = true
   stage.addChild(ardoise)
 
@@ -120,10 +120,10 @@ function onArdoiseMouseDown(mouseData) {
   dessinPoint.moveTo(mouseData.data.global.x, mouseData.data.global.y)
   stage.addChild(dessinPoint)
 
-  ardoises.forEach(function(el) { 
+  ardoises.forEach(function(el) {
     el.mousemove = onArdoiseMouseMove
     el.mouseout = onArdoiseMouseOut
-    el.mouseup = onArdoiseMouseUp  
+    el.mouseup = onArdoiseMouseUp
   });
 
 }
@@ -139,7 +139,7 @@ function onArdoiseMouseOut() {
     onComplete: () => { dessinPoint.clear() }
   })
 
-  ardoises.forEach(function(el) { 
+  ardoises.forEach(function(el) {
     el.mousemove = null
     el.mouseup = null
   });
@@ -153,7 +153,7 @@ function onArdoiseMouseUp() {
     onComplete: () => { dessinPoint.clear() }
   })
 
-  ardoises.forEach(function(el) { 
+  ardoises.forEach(function(el) {
     el.mousemove = null
     el.mouseout = null
   });
