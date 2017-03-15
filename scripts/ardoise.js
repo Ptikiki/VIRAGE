@@ -21,7 +21,7 @@ function initCanvas() {
   renderer.autoResize = true
   document.body.appendChild(renderer.view)
 
-  stage = new PIXI.Stage(true) // ne défile pas
+  stage = new PIXI.Stage(true) // ne défile pas // graphics interactifs
   carousel = new PIXI.Container() // défile
 
   stage.addChild(carousel)
@@ -106,7 +106,7 @@ function dessineArdoise(index) {
   ardoise.beginFill(0x000000)
   ardoise.lineStyle(2, 0xFFFFFF)
   ardoise.drawRect(datas.ardoises[index].x, datas.ardoises[index].y, datas.ardoises[index].width, datas.ardoises[index].height)
-  ardoise.interactive = true
+  ardoise.interactive = true // pour attribuer événements à ardoise
   stage.addChild(ardoise)
 
   ardoises.push(ardoise)
