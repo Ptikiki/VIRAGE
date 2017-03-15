@@ -54,17 +54,17 @@ function setupLoaded(loader, resources) {
     carousel.addChild(sprite) // ajout sprites dans carousel
   })
   makeCarousel() // creation carousel
+  render()
 }
 
 // creation carrousel : redimensionnements / repositionnements
 function makeCarousel() {
   Object.keys(sprites).map(function(objectKey, index) {
-    let ratioHorizontal = window.innerWidth / sprites[objectKey].width // calcul ratio
+    let ratioHorizontal = window.innerWidth / sprites[objectKey].texture.width // calcul ratio
 		sprites[objectKey].scale = new PIXI.Point(ratioHorizontal, ratioHorizontal) // redimensionnement : img = taille fenêtre
 		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
     sprites[objectKey].position.x = window.innerWidth * index // une img par "écran"
   })
-  render() // rendu une fois carrousel créé et bien paramétré
 }
 
 // RENDU
@@ -76,15 +76,16 @@ function render() {
 // RESIZE
 function handleResize() {
   renderer.resize(window.innerWidth, window.innerHeight)
+  makeCarousel()
 }
 
 
 function handleScroll(e) {
   if (Math.abs(carousel.x) < (window.innerWidth * (Object.keys(sprites).length - 1)) - 45 && e.deltaY > 0 ) { // stop le défilement au dernier sprite (défile tant que x abs < à largeur totale de tous les sprites-1)
-    carousel.x -= Math.abs(e.deltaY) / 3
+    carousel.x -= Math.abs(e.deltaY) / 2
   } else if (carousel.x > -45) {
     return
   } else if (e.deltaY < 0) {
-    carousel.x += Math.abs(e.deltaY) / 3
+    carousel.x += Math.abs(e.deltaY) / 2
   }
 }
