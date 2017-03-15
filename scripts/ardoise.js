@@ -1,5 +1,6 @@
 window.onload = function() {
   initCanvas()
+  initArdoises()
   loadCarouselPictures()
 }
 
@@ -10,7 +11,7 @@ let renderer,
     sprites = {}
 
 let dessinPoint,
-    ardoise = new PIXI.Graphics()
+    ardoises = []
 
 
 /*** CANVAS DRAWING ***/
@@ -24,7 +25,19 @@ function initCanvas() {
   carousel = new PIXI.Container() // défile
 
   stage.addChild(carousel)
+
 }
+
+
+function initArdoises() {
+  for(let i = 0; i < 2; i++) {
+    dessineArdoise()
+  }
+  ardoises.forEach(function(el) { 
+    el.mousedown = onArdoiseMouseDown
+  });
+}
+
 
 /*** PICTURES LOADING ***/
 function loadCarouselPictures() {
@@ -52,7 +65,7 @@ function setupLoaded(loader, resources) {
     carousel.addChild(sprite) // ajout sprites dans carousel
   })
   makeCarousel() // creation carousel
-  dessineArdoise()
+  render()
 }
 
 // creation carrousel : redimensionnements / repositionnements
@@ -62,8 +75,7 @@ function makeCarousel() {
 		sprites[objectKey].scale = new PIXI.Point(ratioHorizontal, ratioHorizontal) // redimensionnement : img = taille fenêtre
 		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
     sprites[objectKey].position.x = window.innerWidth * index // une img par "écran"
-  })
-  render() // rendu une fois carrousel créé et bien paramétré
+  }) 
 }
 
 // RENDU
@@ -90,22 +102,30 @@ function handleScroll(e) {
 
 /*** ARDOISE ***/
 function dessineArdoise() {
-  ardoise.beginFill(0x000000);
-  ardoise.lineStyle(2, 0xFFFFFF);
-  ardoise.drawRect(1000, 50, 550, 400);
+  let ardoise = new PIXI.Graphics()
+  ardoise.beginFill(0x000000)
+  ardoise.lineStyle(2, 0xFFFFFF)
+  ardoise.drawRect(Math.random()*1000, Math.random()*50, 550, 400)
   ardoise.interactive = true
-  stage.addChild(ardoise);
+  stage.addChild(ardoise)
+
+  ardoises.push(ardoise)
 }
 
+
 function onArdoiseMouseDown(mouseData) {
+  console.log(mouseData)
   dessinPoint = new PIXI.Graphics()
   dessinPoint.beginFill(0xffffff)
   dessinPoint.moveTo(mouseData.data.global.x, mouseData.data.global.y)
   stage.addChild(dessinPoint)
 
-  ardoise.mousemove = onArdoiseMouseMove
-  ardoise.mouseout = onArdoiseMouseOut
-  ardoise.mouseup = onArdoiseMouseUp
+  ardoises.forEach(function(el) { 
+    el.mousemove = onArdoiseMouseMove
+    el.mouseout = onArdoiseMouseOut
+    el.mouseup = onArdoiseMouseUp  
+  });
+
 }
 
 function onArdoiseMouseMove(mouseData) {
@@ -119,8 +139,11 @@ function onArdoiseMouseOut() {
     onComplete: () => { dessinPoint.clear() }
   })
 
-  ardoise.mousemove = null
-  ardoise.mouseup = null
+  ardoises.forEach(function(el) { 
+    el.mousemove = null
+    el.mouseup = null
+  });
+
 }
 
 function onArdoiseMouseUp() {
@@ -130,13 +153,14 @@ function onArdoiseMouseUp() {
     onComplete: () => { dessinPoint.clear() }
   })
 
-  ardoise.mousemove = null
-  ardoise.mouseout = null
+  ardoises.forEach(function(el) { 
+    el.mousemove = null
+    el.mouseout = null
+  });
+
 }
 
 
 /*** LISTENERS ***/
 window.addEventListener('resize', handleResize)
 window.addEventListener('mousewheel', handleScroll)
-
-ardoise.mousedown = onArdoiseMouseDown
