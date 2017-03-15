@@ -79,7 +79,7 @@ function handleResize() {
 }
 
 function animate() {
-  if (Math.abs(carousel.x) < window.innerWidth * (Object.keys(sprites).length - 1) ) { // stop le défilement au dernier sprite (x < à largeur totale des sprites)
-    carousel.x -= 15
+  if (Math.abs(carousel.x) < window.innerWidth * (Object.keys(sprites).length - 1) ) { // stop le défilement au dernier sprite (défile tant que x abs < à largeur totale de tous les sprites-1)
+    carousel.x -= 15 // déplacement vers la gauche
   }
 }
