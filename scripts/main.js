@@ -31,9 +31,9 @@ function initCanvas() {
 function loadCarouselPictures() {
   const pictures = PIXI.loader
 	.add([
-		'assets/paysage.jpg',
-	    'assets/chien.jpg',
-	    'assets/ville.jpg'
+    'assets/paysage.jpg',
+    'assets/chien.jpg',
+    'assets/ville.jpg'
 	])
   .on('progress', loadProgressHandler)
 	.load(setupLoaded) // lancement setupLoaded quand chargement img terminé
@@ -55,7 +55,7 @@ function setupLoaded(loader, resources) {
   makeCarousel() // creation carousel
 }
 
-// creation carousel : redimensionnements / repositionnements
+// creation carrousel : redimensionnements / repositionnements
 function makeCarousel() {
   Object.keys(sprites).map(function(objectKey, index) {
     let ratioHorizontal = window.innerWidth / sprites[objectKey].width // calcul ratio
@@ -63,7 +63,7 @@ function makeCarousel() {
 		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
     sprites[objectKey].position.x = window.innerWidth * index // une img par "écran"
   })
-  render() // rendu une fois carousel créé et bien paramétré
+  render() // rendu une fois carrousel créé et bien paramétré
 }
 
 // RENDU
