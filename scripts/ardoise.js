@@ -3,11 +3,6 @@ window.onload = function() {
   loadCarouselPictures()
 }
 
-/*** LISTENERS ***/
-window.addEventListener('resize', handleResize)
-window.addEventListener('mousewheel', handleScroll)
-
-
 /*** SCENE SETUP ***/
 let renderer,
     stage,
@@ -15,7 +10,7 @@ let renderer,
     sprites = {}
 
 let dessinPoint,
-    ardoise
+    ardoise = new PIXI.Graphics()
 
 
 /*** CANVAS DRAWING ***/
@@ -57,14 +52,13 @@ function setupLoaded(loader, resources) {
     carousel.addChild(sprite) // ajout sprites dans carousel
   })
   makeCarousel() // creation carousel
-  //drawExercice()
   dessineArdoise()
 }
 
 // creation carrousel : redimensionnements / repositionnements
 function makeCarousel() {
   Object.keys(sprites).map(function(objectKey, index) {
-    let ratioHorizontal = window.innerWidth / sprites[objectKey].width // calcul ratio
+    let ratioHorizontal = window.innerWidth / sprites[objectKey].texture.width // calcul ratio
 		sprites[objectKey].scale = new PIXI.Point(ratioHorizontal, ratioHorizontal) // redimensionnement : img = taille fenêtre
 		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
     sprites[objectKey].position.x = window.innerWidth * index // une img par "écran"
@@ -81,8 +75,8 @@ function render() {
 // RESIZE
 function handleResize() {
   renderer.resize(window.innerWidth, window.innerHeight)
+  makeCarousel()
 }
-
 
 function handleScroll(e) {
   if (Math.abs(carousel.x) < (window.innerWidth * (Object.keys(sprites).length - 1)) - 45 && e.deltaY > 0 ) { // stop le défilement au dernier sprite (défile tant que x abs < à largeur totale de tous les sprites-1)
@@ -94,71 +88,55 @@ function handleScroll(e) {
   }
 }
 
-// DESSIN
-
-function onMouseDown(event) {
-  dessinPoint = new PIXI.Graphics()
-  dessinPoint.beginFill(0xffffff)
-  dessinPoint.moveTo(event.offsetX, event.offsetY)
-  stage.addChild(dessinPoint)
-  ardoise.mousemove = function(mouseData) {
-    onMouseDrag(mouseData)
-  }
-}
-
-function onMouseDrag(event) {
-  dessinPoint.lineStyle(3, 0xffffff)
-  dessinPoint.lineTo(event.offsetX, event.offsetY)
-  drawingDetection()
-}
-
-function onMouseUp(event) {
-  dessinPoint.endFill()
-  ardoise.mousemove = null
-}
-
-function drawExercice() {
-  console.log("ahahaha")
-  let circle = new PIXI.Graphics()
-  circle.beginFill(0xFFF68F)
-  circle.drawCircle(0, 0, 10)
-  circle.endFill()
-  circle.x = 500
-  circle.y = 500
-  carousel.addChild(circle)
-}
-
-function drawingDetection() {
-  console.log("detection en cours")
-  let mouseX = event.offsetX
-  let mouseY = event.offsetY
-  if (mouseX > 490 && mouseX < 510 && mouseY > 490 && mouseY < 510) {
-    console.log("c'est passé par 500px 500px")
-  }
-}
-
+/*** ARDOISE ***/
 function dessineArdoise() {
-  ardoise = new PIXI.Graphics();
   ardoise.beginFill(0x000000);
   ardoise.lineStyle(2, 0xFFFFFF);
-  ardoise.drawRect(1000, 50, 150, 100);
+  ardoise.drawRect(1000, 50, 550, 400);
   ardoise.interactive = true
-
   stage.addChild(ardoise);
-
-  ardoise.mousedown = function(mouseData) {
-    onMouseDown(mouseData)
-    ardoise.mouseout = function(mouseData) {
-      dessinPoint.destroy()
-    }
-  }
-
-  ardoise.mouseup = function(mouseData) {
-    onMouseUp(mouseData)
-    ardoise.mouseout = null
-  }
-
-
-
 }
 
+function onArdoiseMouseDown(mouseData) {
+  dessinPoint = new PIXI.Graphics()
+  dessinPoint.beginFill(0xffffff)
+  dessinPoint.moveTo(mouseData.data.global.x, mouseData.data.global.y)
+  stage.addChild(dessinPoint)
+
+  ardoise.mousemove = onArdoiseMouseMove
+  ardoise.mouseout = onArdoiseMouseOut
+  ardoise.mouseup = onArdoiseMouseUp
+}
+
+function onArdoiseMouseMove(mouseData) {
+  dessinPoint.lineStyle(3, 0xffffff)
+  dessinPoint.lineTo(mouseData.data.global.x, mouseData.data.global.y)
+}
+
+function onArdoiseMouseOut() {
+  TweenLite.to(dessinPoint, 0.3, {
+    alpha: 0,
+    onComplete: () => { dessinPoint.clear() }
+  })
+
+  ardoise.mousemove = null
+  ardoise.mouseup = null
+}
+
+function onArdoiseMouseUp() {
+  dessinPoint.endFill()
+  TweenLite.to(dessinPoint, 0.3, {
+    alpha: 0,
+    onComplete: () => { dessinPoint.clear() }
+  })
+
+  ardoise.mousemove = null
+  ardoise.mouseout = null
+}
+
+
+/*** LISTENERS ***/
+window.addEventListener('resize', handleResize)
+window.addEventListener('mousewheel', handleScroll)
+
+ardoise.mousedown = onArdoiseMouseDown
