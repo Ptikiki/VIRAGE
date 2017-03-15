@@ -21,8 +21,8 @@ function initCanvas() {
   renderer.autoResize = true
   document.body.appendChild(renderer.view)
 
-  stage = new PIXI.Container()
-  carousel = new PIXI.Container()
+  stage = new PIXI.Container() // ne défile pas
+  carousel = new PIXI.Container() // défile
 
   stage.addChild(carousel)
 }
@@ -36,7 +36,7 @@ function loadCarouselPictures() {
 	    'assets/ville.jpg'
 	])
   .on('progress', loadProgressHandler)
-	.load(setupLoaded)
+	.load(setupLoaded) // lancement setupLoaded quand chargement img terminé
 }
 
 // PROGRESSION CHARGEMENT
@@ -47,25 +47,23 @@ function loadProgressHandler(loader) {
 
 // CREATION SPRITES
 function setupLoaded(loader, resources) {
-  Object.keys(resources).map(function(objectKey, index) { // nous donne objectKey et index correspondant
+  Object.keys(resources).map(function(objectKey, index) { // nous donne objectKey (char) et index correspondant
     const sprite = new PIXI.Sprite(resources[objectKey].texture) // récupère la texture de chaque objectKey
     sprites[objectKey] = sprite // remplit l'objet sprites avec chaque sprite
-    carousel.addChild(sprite)
+    carousel.addChild(sprite) // ajout sprites dans carousel
   })
-  makeCarousel()
+  makeCarousel() // creation carousel
 }
 
-// redimensionnements / repositionnements
+// creation carousel : redimensionnements / repositionnements
 function makeCarousel() {
   Object.keys(sprites).map(function(objectKey, index) {
-    let ratioHorizontalPaysage = window.innerWidth / sprites[objectKey].width
-  	let ratioVerticalPaysage = window.innerHeight / sprites[objectKey].height
-
-		sprites[objectKey].scale = new PIXI.Point(ratioHorizontalPaysage, ratioHorizontalPaysage)
-		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2
-    sprites[objectKey].position.x = window.innerWidth * index
+    let ratioHorizontal = window.innerWidth / sprites[objectKey].width // calcul ratio
+		sprites[objectKey].scale = new PIXI.Point(ratioHorizontal, ratioHorizontal) // redimensionnement : img = taille fenêtre
+		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
+    sprites[objectKey].position.x = window.innerWidth * index // une img par "écran"
   })
-  render()
+  render() // rendu une fois carousel créé et bien paramétré
 }
 
 // RENDU
@@ -81,7 +79,7 @@ function handleResize() {
 }
 
 function animate() {
-  if (Math.abs(carousel.x) < window.innerWidth * (Object.keys(sprites).length - 1) ) {
+  if (Math.abs(carousel.x) < window.innerWidth * (Object.keys(sprites).length - 1) ) { // stop le défilement au dernier sprite
     carousel.x -= 15
   }
 }
