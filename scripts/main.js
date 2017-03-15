@@ -5,6 +5,7 @@ window.onload = function() {
 
 /*** LISTENERS ***/
 window.addEventListener('resize', handleResize)
+window.addEventListener('mousewheel', handleScroll)
 
 
 /*** SCENE SETUP ***/
@@ -69,7 +70,6 @@ function makeCarousel() {
 // RENDU
 function render() {
   requestAnimationFrame(render)
-  animate()
   renderer.render(stage)
 }
 
@@ -78,8 +78,13 @@ function handleResize() {
   renderer.resize(window.innerWidth, window.innerHeight)
 }
 
-function animate() {
-  if (Math.abs(carousel.x) < window.innerWidth * (Object.keys(sprites).length - 1) ) { // stop le défilement au dernier sprite (défile tant que x abs < à largeur totale de tous les sprites-1)
-    carousel.x -= 15 // déplacement vers la gauche
+
+function handleScroll(e) {
+  if (Math.abs(carousel.x) < (window.innerWidth * (Object.keys(sprites).length - 1)) - 45 && e.deltaY > 0 ) { // stop le défilement au dernier sprite (défile tant que x abs < à largeur totale de tous les sprites-1)
+    carousel.x -= Math.abs(e.deltaY) / 3
+  } else if (carousel.x > -45) {
+    return
+  } else if (e.deltaY < 0) {
+    carousel.x += Math.abs(e.deltaY) / 3
   }
 }
