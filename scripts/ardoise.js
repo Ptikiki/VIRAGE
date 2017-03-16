@@ -1,6 +1,5 @@
 window.onload = function() {
   initCanvas()
-  initArdoises()
   loadCarouselPictures()
 }
 
@@ -49,9 +48,9 @@ function initArdoises() {
 function loadCarouselPictures() {
   const pictures = PIXI.loader
   .add([
-    'assets/carousel-1.png',
-    'assets/carousel-2.png',
-    'assets/carousel-3.png'
+    'assets/carousel-1.jpg',
+    'assets/carousel-2.jpg',
+    'assets/carousel-3.jpg'
   ])
   .on('progress', loadProgressHandler)
   .load(setupLoaded) // lancement setupLoaded quand chargement img terminé
@@ -69,6 +68,7 @@ function setupLoaded(loader, resources) {
     carousel.addChild(sprite) // ajout sprites dans carousel
   })
   makeCarousel() // creation carousel
+  initArdoises()
   render()
 }
 
@@ -107,11 +107,10 @@ function handleScroll(e) {
 /*** ARDOISE ***/
 function dessineArdoise(index) {
   let ardoise = new PIXI.Graphics()
-  ardoise.beginFill(0x000000)
-  ardoise.lineStyle(2, 0xFFFFFF)
+  ardoise.beginFill(0x000000, 0.3)
   ardoise.drawRect(datas.datasArdoises[index].x, datas.datasArdoises[index].y, datas.datasArdoises[index].width, datas.datasArdoises[index].height)
   ardoise.interactive = true // pour attribuer événements à ardoise
-  stage.addChild(ardoise)
+  carousel.addChild(ardoise)
 
   ardoises.push(ardoise)
 }
@@ -189,6 +188,7 @@ function drawCheckpoint(index) {
 }
 
 function drawingDetection(mouseData) {
+  console.log('yes')
   this.isChecked = true
   let drawValidated = true
 

@@ -31,9 +31,9 @@ function initCanvas() {
 function loadCarouselPictures() {
   const pictures = PIXI.loader
 	.add([
-    'assets/carousel-1.png',
-    'assets/carousel-2.png',
-    'assets/carousel-3.png'
+    'assets/carousel-1.jpg',
+    'assets/carousel-2.jpg',
+    'assets/carousel-3.jpg'
 	])
   .on('progress', loadProgressHandler)
 	.load(setupLoaded) // lancement setupLoaded quand chargement img terminé
