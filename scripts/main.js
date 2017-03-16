@@ -7,7 +7,7 @@ window.onload = function() {
 let renderer,
     stage,
     carousel,
-    ratioVertical,
+    ratioVertical = 1,
     totalCarouselWidth = 0
     sprites = {}
 
@@ -74,7 +74,6 @@ function setupLoaded(loader, resources) {
     carousel.addChild(sprite) // ajout sprites dans carousel
   })
   makeCarousel() // creation carousel
-  initArdoises()
   render()
 }
 
@@ -87,6 +86,16 @@ function makeCarousel() {
     totalCarouselWidth += sprites[objectKey].width
   })
   totalCarouselWidth = 0
+
+  for (var i = 0; i < ardoises.length; i++) {
+    ardoises[i].destroy()
+  }
+  for (var i = 0; i < checkPoints.length; i++) {
+    checkPoints[i].destroy()
+  }
+  ardoises = []
+  checkPoints = []
+  initArdoises()
 }
 
 // RENDU
@@ -102,9 +111,7 @@ function handleResize() {
   clearTimeout(test)
   test = setTimeout(()=> {
     makeCarousel()
-  }, 400)
-
-
+  }, 200)
 }
 
 function handleScroll(e) {
@@ -121,8 +128,8 @@ function handleScroll(e) {
 /*** ARDOISE ***/
 function dessineArdoise(index) {
   let ardoise = new PIXI.Graphics()
-  ardoise.beginFill(0x000000, 0)
-  ardoise.drawRect(datas.datasArdoises[index].x, datas.datasArdoises[index].y, datas.datasArdoises[index].width, datas.datasArdoises[index].height)
+  ardoise.beginFill(0x000000, 0.1)
+  ardoise.drawRect(datas.datasArdoises[index].x * ratioVertical, datas.datasArdoises[index].y * ratioVertical, datas.datasArdoises[index].width * ratioVertical, datas.datasArdoises[index].height * ratioVertical)
   ardoise.interactive = true // pour attribuer événements à ardoise
   carousel.addChild(ardoise)
 
@@ -191,8 +198,8 @@ function drawCheckpoint(index) {
   checkPoint.beginFill(0xAFBBF2, 1)
   checkPoint.drawCircle(0, 0, datas.datasCheckPoints[index].rayon)
   checkPoint.endFill()
-  checkPoint.x = datas.datasCheckPoints[index].x + ardoises[datas.datasCheckPoints[index].ardoise].graphicsData[0].shape.x
-  checkPoint.y = datas.datasCheckPoints[index].y + ardoises[datas.datasCheckPoints[index].ardoise].graphicsData[0].shape.y
+  checkPoint.x = datas.datasCheckPoints[index].x * ratioVertical + ardoises[datas.datasCheckPoints[index].ardoise].graphicsData[0].shape.x
+  checkPoint.y = datas.datasCheckPoints[index].y * ratioVertical + ardoises[datas.datasCheckPoints[index].ardoise].graphicsData[0].shape.y
   checkPoint.interactive = true // pour attribuer événements à checkPoint
   checkPoint.isChecked = false
   ardoises[datas.datasCheckPoints[index].ardoise].addChild(checkPoint)
