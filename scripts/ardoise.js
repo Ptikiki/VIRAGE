@@ -36,6 +36,10 @@ function initArdoises() {
     drawCheckpoint(i)
   }
 
+  checkPoints.forEach(function(el) {
+    el.mousedown = drawingDetection
+  })
+
   ardoises.forEach(function(el) {
     el.mousedown = onArdoiseMouseDown
     el.mouseover = () => { document.body.style.cursor = 'crosshair' }
@@ -175,7 +179,7 @@ function onArdoiseMouseUp() {
 
 function drawCheckpoint(index) {
   let checkPoint = new PIXI.Graphics()
-  checkPoint.beginFill(0xFFF68F)
+  checkPoint.beginFill(0xFFF68F, 1)
   checkPoint.drawCircle(0, 0, datas.datasCheckPoints[index].rayon)
   checkPoint.endFill()
   checkPoint.x = datas.datasCheckPoints[index].x
@@ -200,6 +204,11 @@ function drawingDetection(mouseData) {
 
   if (drawValidated) {
     console.log('dessin valide')
+
+    TweenLite.to(this.parent.children, 0.3, {
+      alpha: 0.5
+    })
+
     reseDrawingDetection(this.parent)
   }
 }
