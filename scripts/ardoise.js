@@ -11,7 +11,8 @@ let renderer,
     sprites = {}
 
 let dessinPoint,
-    ardoises = []
+    ardoises = [],
+    checkPoints = []
 
 
 /*** CANVAS DRAWING ***/
@@ -20,7 +21,7 @@ function initCanvas() {
   renderer.autoResize = true
   document.body.appendChild(renderer.view)
 
-  stage = new PIXI.Stage(true) // ne défile pas
+  stage = new PIXI.Stage(true) // ne défile pas // graphics interactifs
   carousel = new PIXI.Container() // défile
 
   stage.addChild(carousel)
@@ -30,8 +31,9 @@ function initCanvas() {
 function initArdoises() {
   for(let i = 0; i < 2; i++) {
     dessineArdoise(i)
+    drawExercice()
   }
-  ardoises.forEach(function(el) {
+    ardoises.forEach(function(el) {
     el.mousedown = onArdoiseMouseDown
     el.mouseover = () => { document.body.style.cursor = 'crosshair' }
     el.mouseout = onArdoiseMouseOut
@@ -46,9 +48,9 @@ function loadCarouselPictures() {
     'assets/carousel-1.png',
     'assets/carousel-2.png',
     'assets/carousel-3.png'
-	])
+  ])
   .on('progress', loadProgressHandler)
-	.load(setupLoaded) // lancement setupLoaded quand chargement img terminé
+  .load(setupLoaded) // lancement setupLoaded quand chargement img terminé
 }
 
 // PROGRESSION CHARGEMENT
@@ -72,8 +74,8 @@ function setupLoaded(loader, resources) {
 function makeCarousel() {
   Object.keys(sprites).map(function(objectKey, index) {
     let ratioHorizontal = window.innerWidth / sprites[objectKey].texture.width // calcul ratio
-		sprites[objectKey].scale = new PIXI.Point(ratioHorizontal, ratioHorizontal) // redimensionnement : img = taille fenêtre
-		sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
+    sprites[objectKey].scale = new PIXI.Point(ratioHorizontal, ratioHorizontal) // redimensionnement : img = taille fenêtre
+    sprites[objectKey].position.y = -(sprites[objectKey].texture.height * sprites[objectKey].scale.y - window.innerHeight)/2 // centrage vertical
     sprites[objectKey].position.x = window.innerWidth * index // une img par "écran"
   })
 }
@@ -119,10 +121,15 @@ function onArdoiseMouseDown(mouseData) {
   dessinPoint.moveTo(mouseData.data.global.x, mouseData.data.global.y)
   stage.addChild(dessinPoint)
 
+  checkPoints.forEach(function(el) {
+    el.mouseover = drawingDetection
+    console.log("appel detection", el)
+  })
+
   ardoises.forEach(function(el) {
     el.mousemove = onArdoiseMouseMove
     el.mouseup = onArdoiseMouseUp
-  });
+  })
 }
 
 function onArdoiseMouseMove(mouseData) {
@@ -139,6 +146,10 @@ function onArdoiseMouseOut() {
   }
   document.body.style.cursor = 'auto'
 
+checkPoints.forEach(function(el) {
+    el.mouseover = null
+  })
+
   ardoises.forEach(function(el) {
     el.mousemove = null
     el.mouseup = null
@@ -152,9 +163,30 @@ function onArdoiseMouseUp() {
     onComplete: () => { dessinPoint.clear() }
   })
 
+  checkPoints.forEach(function(el) {
+    el.mouseover = null
+  })
+
   ardoises.forEach(function(el) {
     el.mousemove = null
   })
+}
+
+function drawExercice() {
+  let checkPoint = new PIXI.Graphics()
+  checkPoint.beginFill(0xFFF68F)
+  checkPoint.drawCircle(0, 0, 10)
+  checkPoint.endFill()
+  checkPoint.x = 200
+  checkPoint.y = 300
+  checkPoint.interactive = true // pour attribuer événements à checkPoint
+  stage.addChild(checkPoint)
+
+  checkPoints.push(checkPoint)
+}
+
+function drawingDetection() {
+  console.log("c'est passé par le point")
 }
 
 
