@@ -29,11 +29,15 @@ function initCanvas() {
 
 
 function initArdoises() {
-  for(let i = 0; i < 2; i++) {
+  for(let i = 0; i < datas.datasArdoises.length; i++) {
     dessineArdoise(i)
-    drawExercice()
   }
-    ardoises.forEach(function(el) {
+
+  for(let i = 0; i < datas.datasCheckPoints.length; i++) {
+    drawCheckpoint(i)
+  }
+
+  ardoises.forEach(function(el) {
     el.mousedown = onArdoiseMouseDown
     el.mouseover = () => { document.body.style.cursor = 'crosshair' }
     el.mouseout = onArdoiseMouseOut
@@ -55,8 +59,6 @@ function loadCarouselPictures() {
 
 // PROGRESSION CHARGEMENT
 function loadProgressHandler(loader) {
-  console.log('loading')
-  console.log('progress: ' + loader.progress + '%')
 }
 
 // ACTIONS APRES CHARGEMENT IMG
@@ -107,7 +109,7 @@ function dessineArdoise(index) {
   let ardoise = new PIXI.Graphics()
   ardoise.beginFill(0x000000)
   ardoise.lineStyle(2, 0xFFFFFF)
-  ardoise.drawRect(datas.ardoises[index].x, datas.ardoises[index].y, datas.ardoises[index].width, datas.ardoises[index].height)
+  ardoise.drawRect(datas.datasArdoises[index].x, datas.datasArdoises[index].y, datas.datasArdoises[index].width, datas.datasArdoises[index].height)
   ardoise.interactive = true // pour attribuer événements à ardoise
   stage.addChild(ardoise)
 
@@ -123,7 +125,6 @@ function onArdoiseMouseDown(mouseData) {
 
   checkPoints.forEach(function(el) {
     el.mouseover = drawingDetection
-    console.log("appel detection", el)
   })
 
   ardoises.forEach(function(el) {
@@ -172,21 +173,20 @@ function onArdoiseMouseUp() {
   })
 }
 
-function drawExercice() {
+function drawCheckpoint(index) {
   let checkPoint = new PIXI.Graphics()
   checkPoint.beginFill(0xFFF68F)
-  checkPoint.drawCircle(0, 0, 10)
+  checkPoint.drawCircle(0, 0, datas.datasCheckPoints[index].rayon)
   checkPoint.endFill()
-  checkPoint.x = 200
-  checkPoint.y = 300
+  checkPoint.x = datas.datasCheckPoints[index].x
+  checkPoint.y = datas.datasCheckPoints[index].y
   checkPoint.interactive = true // pour attribuer événements à checkPoint
-  stage.addChild(checkPoint)
+  ardoises[datas.datasCheckPoints[index].ardoise].addChild(checkPoint)
 
   checkPoints.push(checkPoint)
 }
 
 function drawingDetection() {
-  console.log("c'est passé par le point")
 }
 
 
