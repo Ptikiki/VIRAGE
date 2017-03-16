@@ -20,6 +20,11 @@ const datas = {
       ardoise: 0
     }, {
       rayon: 10,
+      x: 290,
+      y: 290,
+      ardoise: 0
+    }, {
+      rayon: 10,
       x: 700,
       y: 450,
       ardoise: 1

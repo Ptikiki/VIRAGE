@@ -126,11 +126,11 @@ function onArdoiseMouseDown(mouseData) {
   checkPoints.forEach(function(el) {
     el.mouseover = drawingDetection
   })
-
   ardoises.forEach(function(el) {
     el.mousemove = onArdoiseMouseMove
     el.mouseup = onArdoiseMouseUp
   })
+
 }
 
 function onArdoiseMouseMove(mouseData) {
@@ -147,14 +147,15 @@ function onArdoiseMouseOut() {
   }
   document.body.style.cursor = 'auto'
 
-checkPoints.forEach(function(el) {
+  checkPoints.forEach(function(el) {
     el.mouseover = null
   })
-
   ardoises.forEach(function(el) {
     el.mousemove = null
     el.mouseup = null
+    reseDrawingDetection(el)
   })
+
 }
 
 function onArdoiseMouseUp() {
@@ -167,9 +168,9 @@ function onArdoiseMouseUp() {
   checkPoints.forEach(function(el) {
     el.mouseover = null
   })
-
   ardoises.forEach(function(el) {
     el.mousemove = null
+    reseDrawingDetection(el)
   })
 }
 
@@ -181,12 +182,32 @@ function drawCheckpoint(index) {
   checkPoint.x = datas.datasCheckPoints[index].x
   checkPoint.y = datas.datasCheckPoints[index].y
   checkPoint.interactive = true // pour attribuer événements à checkPoint
+  checkPoint.isChecked = false
   ardoises[datas.datasCheckPoints[index].ardoise].addChild(checkPoint)
 
   checkPoints.push(checkPoint)
 }
 
-function drawingDetection() {
+function drawingDetection(mouseData) {
+  this.isChecked = true
+  let drawValidated = true
+
+  for (var i = 0; i < this.parent.children.length; i++) {
+    if (!this.parent.children[i].isChecked) {
+      drawValidated = false
+    }
+  }
+
+  if (drawValidated) {
+    console.log('dessin valide')
+    reseDrawingDetection(this.parent)
+  }
+}
+
+reseDrawingDetection = (el) => {
+  for (var i = 0; i < el.children.length; i++) {
+    el.children[i].isChecked = false
+  }
 }
 
 
