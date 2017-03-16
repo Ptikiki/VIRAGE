@@ -192,8 +192,8 @@ function drawingDetection(mouseData) {
   this.isChecked = true
   let drawValidated = true
 
-  for (var i = 0; i < this.parent.children.length; i++) {
-    if (!this.parent.children[i].isChecked) {
+  for (var i = 0; i < this.parent.children.length; i++) { // parcours des checkPoints de l'ardoise parente du checkPoint en hover
+    if (!this.parent.children[i].isChecked) { // si un de ces checkpoint pas check...
       drawValidated = false
     }
   }
