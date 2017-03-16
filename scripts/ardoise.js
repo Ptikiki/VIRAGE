@@ -119,7 +119,6 @@ function dessineArdoise(index) {
   ardoises.push(ardoise)
 }
 
-
 function onArdoiseMouseDown(mouseData) {
   dessinPoint = new PIXI.Graphics()
   dessinPoint.beginFill(0xffffff)
@@ -182,8 +181,8 @@ function drawCheckpoint(index) {
   checkPoint.beginFill(0xFFF68F, 1)
   checkPoint.drawCircle(0, 0, datas.datasCheckPoints[index].rayon)
   checkPoint.endFill()
-  checkPoint.x = datas.datasCheckPoints[index].x
-  checkPoint.y = datas.datasCheckPoints[index].y
+  checkPoint.x = datas.datasCheckPoints[index].x + ardoises[datas.datasCheckPoints[index].ardoise].graphicsData[0].shape.x
+  checkPoint.y = datas.datasCheckPoints[index].y + ardoises[datas.datasCheckPoints[index].ardoise].graphicsData[0].shape.y
   checkPoint.interactive = true // pour attribuer événements à checkPoint
   checkPoint.isChecked = false
   ardoises[datas.datasCheckPoints[index].ardoise].addChild(checkPoint)

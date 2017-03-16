@@ -20,53 +20,53 @@ const datas = {
   datasCheckPoints: [
     {
       rayon: 30,
-      x: 340,
-      y: 490,
+      x: 40,
+      y: 140,
       ardoise: 0
     }, {
       rayon: 30,
-      x: 540,
-      y: 540,
+      x: 240,
+      y: 190,
       ardoise: 0
     }, {
       rayon: 30,
-      x: 750,
-      y: 460,
+      x: 450,
+      y: 140,
       ardoise: 0
     }, {
       rayon: 30,
-      x: 1590,
-      y: 320,
+      x: 40,
+      y: 130,
       ardoise: 1
     }, {
       rayon: 30,
-      x: 2000,
+      x: 440,
+      y: 230,
+      ardoise: 1
+    }, {
+      rayon: 30,
+      x: 900,
+      y: 110,
+      ardoise: 1
+    }, {
+      rayon: 30,
+      x: 80,
+      y: 200,
+      ardoise: 2
+    }, {
+      rayon: 30,
+      x: 360,
+      y: 200,
+      ardoise: 2
+    }, {
+      rayon: 30,
+      x: 530,
+      y: 370,
+      ardoise: 2
+    }, {
+      rayon: 30,
+      x: 300,
       y: 430,
-      ardoise: 1
-    }, {
-      rayon: 30,
-      x: 2450,
-      y: 290,
-      ardoise: 1
-    }, {
-      rayon: 30,
-      x: 6320,
-      y: 1280,
-      ardoise: 2
-    }, {
-      rayon: 30,
-      x: 6650,
-      y: 1320,
-      ardoise: 2
-    }, {
-      rayon: 30,
-      x: 6800,
-      y: 1450,
-      ardoise: 2
-    }, {
-      rayon: 30,
-      x: 6550,
-      y: 1490,
       ardoise: 2
     }
   ]
