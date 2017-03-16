@@ -60,13 +60,13 @@ const datas = {
       ardoise: 2
     }, {
       rayon: 30,
-      x: 6650,
-      y: 1580,
+      x: 6800,
+      y: 1450,
       ardoise: 2
     }, {
       rayon: 30,
-      x: 6250,
-      y: 1080,
+      x: 6550,
+      y: 1490,
       ardoise: 2
     }
   ]
