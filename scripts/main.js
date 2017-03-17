@@ -128,7 +128,7 @@ function handleScroll(e) {
 /*** ARDOISE ***/
 function dessineArdoise(index) {
   let ardoise = new PIXI.Graphics()
-  ardoise.beginFill(0x000000, 0.1)
+  ardoise.beginFill(0x000000, 0.3)
   ardoise.drawRect(datas.datasArdoises[index].x * ratioVertical, datas.datasArdoises[index].y * ratioVertical, datas.datasArdoises[index].width * ratioVertical, datas.datasArdoises[index].height * ratioVertical)
   ardoise.interactive = true // pour attribuer événements à ardoise
   carousel.addChild(ardoise)
