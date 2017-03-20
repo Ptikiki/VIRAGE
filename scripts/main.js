@@ -195,7 +195,7 @@ function onArdoiseMouseUp() {
 
 function drawCheckpoint(index) {
   let checkPoint = new PIXI.Graphics()
-  checkPoint.beginFill(0xAFBBF2, 1)
+  checkPoint.beginFill(0xffffff, 1)
   checkPoint.drawCircle(0, 0, datas.datasCheckPoints[index].rayon)
   checkPoint.endFill()
   checkPoint.x = datas.datasCheckPoints[index].x * ratioVertical + ardoises[datas.datasCheckPoints[index].ardoise].graphicsData[0].shape.x

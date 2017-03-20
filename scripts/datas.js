@@ -19,54 +19,54 @@ const datas = {
   ],
   datasCheckPoints: [
     {
-      rayon: 30,
-      x: 30,
-      y: 60,
+      rayon: 15,
+      x: 25,
+      y: 55,
       ardoise: 0
     }, {
-      rayon: 30,
+      rayon: 15,
       x: 120,
       y: 80,
       ardoise: 0
     }, {
-      rayon: 30,
+      rayon: 15,
       x: 220,
-      y: 60,
+      y: 55,
       ardoise: 0
     }, {
-      rayon: 30,
+      rayon: 15,
       x: 40,
       y: 70,
       ardoise: 1
     }, {
-      rayon: 30,
+      rayon: 15,
       x: 250,
-      y: 130,
+      y: 125,
       ardoise: 1
     }, {
-      rayon: 30,
-      x: 460,
-      y: 70,
+      rayon: 15,
+      x: 465,
+      y: 60,
       ardoise: 1
     }, {
-      rayon: 30,
+      rayon: 15,
       x: 40,
-      y: 110,
+      y: 120,
       ardoise: 2
     }, {
-      rayon: 30,
+      rayon: 15,
       x: 180,
-      y: 130,
+      y: 125,
       ardoise: 2
     }, {
-      rayon: 30,
-      x: 250,
-      y: 200,
+      rayon: 15,
+      x: 260,
+      y: 210,
       ardoise: 2
     }, {
-      rayon: 30,
+      rayon: 15,
       x: 150,
-      y: 230,
+      y: 235,
       ardoise: 2
     }
   ]
