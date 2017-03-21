@@ -7,18 +7,20 @@ let renderer,
     stage,
     background,
     mask,
-    container
+    container,
+    frite,
+    texture
 let count = 0
 
 /*** CANVAS DRAWING ***/
 function initCanvas() {
-  renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight, { antialias: true,  preserveDrawingBuffer: true })
+  renderer = new PIXI.CanvasRenderer(window.innerWidth, window.innerHeight, { antialias: true,  clearBeforeRender: false })
   renderer.backgroundColor = 0x000000
+  renderer.autoClear = false;
   renderer.autoResize = true
-  renderer.autoClear = false
   document.body.appendChild(renderer.view)
 
-  stage = new PIXI.Stage(true)
+  stage = new PIXI.Container()
   stage.interactive = true
 
   setImages()
@@ -29,11 +31,11 @@ function initCanvas() {
 }
 
 function setImages() {
-  container = new PIXI.Container()
+  container = new PIXI.DisplayObjectContainer()
   container.position.x = window.innerWidth / 2
   container.position.y = window.innerHeight / 2
 
-  background = PIXI.Sprite.fromImage('./assets/square.svg')
+  background = PIXI.Sprite.fromImage('./assets/frite.png') // silhouette de Sum
   background.anchor.x = 0.5
   background.anchor.y = 0.5
   container.addChild(background)
@@ -42,7 +44,10 @@ function setImages() {
 }
 
 function createMask() {
-  mask = PIXI.Sprite.fromImage('./assets/cercle.svg')
+  mask = new PIXI.Graphics()
+  mask.beginFill(0)
+  mask.drawCircle(100,100,30)
+  // mask = PIXI.Sprite.fromImage('./assets/cercle.svg')
   stage.addChild(mask)
   mask.position.x = window.innerWidth / 2 - 100
   mask.position.y = window.innerHeight / 2 - 100
@@ -55,11 +60,17 @@ function listeners() {
 }
 
 function onClick() {
-  if(!container.mask) { // clic en dehors du masque
-    container.mask = mask
-  } else { // clic sur le masque
-    container.mask = null
-  }
+  // if(!container.mask) { // clic en dehors du masque
+  //   container.mask = mask
+  // } else { // clic sur le masque
+  //   container.mask = null
+  // }
+
+  background = PIXI.Sprite.fromImage('./assets/frite_bleue.png') // silhouette de Sum
+  background.anchor.x = 0.5
+  background.anchor.y = 0.5
+  container.addChild(background)
+
 }
 
 function onMouseMove(mouseData) {
