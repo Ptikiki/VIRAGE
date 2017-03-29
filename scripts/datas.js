@@ -1,4 +1,19 @@
 const datas = {
+  datasEyes: [
+    {
+      x: 150,
+      y: 250,
+    }, {
+      x: 760,
+      y: 560,
+    }, {
+      x: 360,
+      y: 660,
+    }, {
+      x: 1060,
+      y: 160,
+    }
+  ],
   datasArdoises: [
     {
       width: 250,

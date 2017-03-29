@@ -5,13 +5,11 @@ window.onload = function() {
 /*** LISTENERS ***/
 window.addEventListener('resize', handleResize)
 
-
 /*** SCENE SETUP ***/
 let renderer,
-    stage
-
-let nbr_yeux = 30,
-    circles = []
+    stage,
+    eye,
+    eyes = []
 
 /*** CANVAS DRAWING ***/
 function initCanvas() {
@@ -22,15 +20,19 @@ function initCanvas() {
 
   stage = new PIXI.Container()
 
-  drawManyCircles()
-  render()
+  initEyes()
+  animate()
 }
 
-// RENDU
-function render() {
-  requestAnimationFrame(render)
-  animate()
-  renderer.render(stage)
+function initEyes() {
+  for(let i = 0; i < datas.datasEyes.length; i++) {
+    drawEye(i)
+  }
+
+  eyes.forEach(function(el) {
+    el.mouseover = onMouseOver
+    el.mouseout = onMouseOut
+  })
 }
 
 // RESIZE
@@ -38,26 +40,39 @@ function handleResize() {
   renderer.resize(window.innerWidth, window.innerHeight)
 }
 
-function drawCircle(i) {
-  let circle = new PIXI.Graphics()
-  circle.beginFill(0xffffff)
-  circle.drawCircle(0, 0, Math.random()*10*i)
-  circle.endFill()
-  circle.x = Math.random()*1000*i
-  circle.y = Math.random()*100*i
-  stage.addChild(circle)
-  circles.push(circle)
+function drawEye(i) {
+  eye = PIXI.Sprite.fromImage('./assets/eyes.png') 
+  eye.x = datas.datasEyes[i].x
+  eye.y = datas.datasEyes[i].y
+  eye.width = 200
+  eye.height = 2
+  eye.interactive = true
+  stage.addChild(eye)
+  eyes.push(eye)
 }
 
-function drawManyCircles() {
-  for (let i = 0; i < nbr_yeux; i++) {
-    drawCircle(i)
+function onMouseOver(el) {
+  console.log(el.target)
+  if (el.target != null) {
+    TweenLite.to(this, 0.5, {
+      height: 100
+    })
   }
+}
+
+function onMouseOut(el) {
+  //console.log("sortie")
+  TweenLite.to(this, 10, {
+    height: 2
+  })
 }
 
 function animate() {
-  for (var i = 0; i < circles.length; i++) {
-    circles[i].x += 0.5
-  }
+  render()
 }
 
+// RENDU
+function render() {
+  requestAnimationFrame(render)
+  renderer.render(stage)
+}

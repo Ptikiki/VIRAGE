@@ -149,7 +149,6 @@ function onArdoiseMouseDown(mouseData) {
     el.mousemove = onArdoiseMouseMove
     el.mouseup = onArdoiseMouseUp
   })
-
 }
 
 function onArdoiseMouseMove(mouseData) {
